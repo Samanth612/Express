@@ -28,10 +28,12 @@ export const loginUser = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const user = await getUserByEmail(email);
 
-    if (!user) return sendResponse(res, 400, false, "Invalid credentials");
+    if (!user)
+      return sendResponse(res, 400, false, "Invalid email, Please register");
 
     const isMatch = await user.comparePassword(password);
-    if (!isMatch) return sendResponse(res, 400, false, "Invalid credentials");
+    if (!isMatch)
+      return sendResponse(res, 400, false, "Invalid password, try again");
 
     const token = jwt.sign({ id: user._id }, config.jwtSecret, {
       expiresIn: "1h",
