@@ -2,5 +2,13 @@ node_modules
 package-lock.json
 package.json
 tsconfig.json
-
+dist
+.ebignore
 .env
+deploy.zip
+Procfile
+.elasticbeanstalk
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
