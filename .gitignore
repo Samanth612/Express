@@ -4,3 +4,8 @@ package.json
 tsconfig.json
 dist
 .env
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
