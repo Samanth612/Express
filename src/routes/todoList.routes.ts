@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
-router.post("/createTodoList", createTodoList);
-router.get("/todoList", todoList);
-router.put("/updatetodolist/:id", updateList);
-router.delete("/deletetodoList/:id", deletetodoList);
+router.post("/todo", createTodoList);
+router.get("/todo", todoList);
+router.put("/todo/:id", updateList);
+router.delete("/todo/:id", deletetodoList);
 
 export default router;

@@ -10,6 +10,6 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 
-app.use("/api", todoListRoutes);
+app.use("/api/todos", todoListRoutes);
 
 export default app;
