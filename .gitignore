@@ -1,24 +1,6 @@
 node_modules
-package-lock.json
-package.json
-tsconfig.json
-
-dist
 .env
-# Elastic Beanstalk Files
 .elasticbeanstalk
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-
-# Ignore local environment files
-.env
-.env.local
-
-# Ignore TypeScript build files if you deploy only dist/
-*.ts
-!dist/
-
-# Allow package.json (Important for Elastic Beanstalk)
-!package.json
-!Procfile  # ✅ Ensure Procfile is pushed
