@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+  </head>
+  <body class="bg-gray-100 p-6">
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+      <h1 class="text-2xl font-bold mb-4">Todo List</h1>
+
+      <!-- Form to Add New Task -->
+      <form id="todoForm" class="mb-4">
+        <input
+          type="text"
+          id="task"
+          placeholder="Enter task"
+          class="border p-2 rounded w-full mb-2"
+          required
+        />
+        <select id="status" class="border p-2 rounded w-full mb-2">
+          <option value="pending">Pending</option>
+          <option value="completed">Completed</option>
+        </select>
+        <button type="submit" class="bg-blue-500 text-white p-2 rounded w-full">
+          Add Task
+        </button>
+      </form>
+
+      <!-- Task List -->
+      <ul id="todoList" class="space-y-2">
+        <% todos.forEach(todo => { %>
+        <li class="flex justify-between items-center bg-gray-200 p-2 rounded">
+          <span><%= todo.task %> - <%= todo.status %></span>
+          <div>
+            <button
+              class="bg-yellow-500 text-white px-2 py-1 rounded update-btn"
+              data-id="<%= todo.id %>"
+            >
+              Edit
+            </button>
+            <button
+              class="bg-red-500 text-white px-2 py-1 rounded delete-btn"
+              data-id="<%= todo.id %>"
+            >
+              Delete
+            </button>
+          </div>
+        </li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const todoForm = document.getElementById("todoForm");
+        const todoList = document.getElementById("todoList");
+
+        // Create Task
+        todoForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const task = document.getElementById("task").value;
+          const status = document.getElementById("status").value;
+
+          const res = await fetch("/api/todos/todo", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: Date.now().toString(), task, status }),
+          });
+
+          if (res.ok) location.reload();
+        });
+
+        // Delete Task
+        todoList.addEventListener("click", async (e) => {
+          if (e.target.classList.contains("delete-btn")) {
+            const id = e.target.dataset.id;
+            const res = await fetch(`/api/todos/todo/${id}`, {
+              method: "DELETE",
+            });
+
+            if (res.ok) location.reload();
+          }
+        });
+
+        // Update Task
+        todoList.addEventListener("click", async (e) => {
+          if (e.target.classList.contains("update-btn")) {
+            const id = e.target.dataset.id;
+            const newTask = prompt("Enter new task:");
+            const newStatus = prompt("Enter new status (pending/completed):");
+
+            if (newTask && newStatus) {
+              const res = await fetch(`/api/todos/todo/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ task: newTask, status: newStatus }),
+              });
+
+              if (res.ok) location.reload();
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
